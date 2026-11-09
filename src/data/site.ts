@@ -4,6 +4,7 @@ export const NAV = [
     { href: "/bio", label: "Bio" },
     { href: "/discografia", label: "Discografia" },
     { href: "/mixes", label: "Mixes" },
+    { href: "/agenda", label: "Agenda" },
     { href: "/contato", label: "Contato" },
 ]
 export const SOCIAL = [

@@ -5,6 +5,9 @@ import Arrow from "../components/Arrow.astro"
 import CoverWall from "../components/CoverWall.astro"
 import Labels from "../components/Labels.astro"
 import { COVERS } from "../data/site"
+import AgendaList from "../components/AgendaList.astro"
+import { AGENDA } from "../data/agenda"
+const hasNext = AGENDA.some((a) => a.data >= new Date().toISOString().slice(0, 10))
 ---
 
 <Base home description="Site oficial da artista. Confira os lançamentos, informações, sets e contato para bookings.">
@@ -30,6 +33,21 @@ import { COVERS } from "../data/site"
             <a class="flip link-text" href="/bio"><span>Bio</span><span aria-hidden="true">Bio</span></a>
         </div>
     </section>
+
+    {
+        hasNext && (
+            <section class="sec" aria-label="Próximas datas">
+                <SecHead label="/ Agenda" title="Próximas datas" />
+                <div class="wrap next">
+                    <AgendaList onlyNext limit={3} />
+                    <a class="flip link-text more" href="/agenda">
+                        <span>Agenda completa</span>
+                        <span aria-hidden="true">Agenda completa</span>
+                    </a>
+                </div>
+            </section>
+        )
+    }
 
     <section class="sec" aria-label="Lançamentos">
         <SecHead label="/ Lançamentos" title="Albuns, EPs & remixes" />
@@ -111,6 +129,13 @@ import { COVERS } from "../data/site"
         flex-direction: column;
         align-items: center;
         gap: 20px;
+    }
+    .next {
+        max-width: 1080px;
+        margin: 60px auto 0;
+    }
+    .more {
+        margin-top: 30px;
     }
     .wall-wrap {
         margin-top: 60px;

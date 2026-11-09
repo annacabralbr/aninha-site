@@ -1,0 +1,158 @@
+---
+// Lista de datas: mais nova primeiro. As que já passaram ficam com 50% de opacidade.
+// A data de hoje é conferida também no navegador, para a lista ficar certa mesmo sem
+// publicar o site de novo.
+import { AGENDA } from "../data/agenda"
+interface Props {
+    limit?: number
+    onlyNext?: boolean
+}
+const { limit, onlyNext = false } = Astro.props
+const today = new Date().toISOString().slice(0, 10)
+let shows = [...AGENDA].sort((a, b) => b.data.localeCompare(a.data))
+if (onlyNext) shows = shows.filter((s) => s.data >= today).reverse()
+if (limit) shows = shows.slice(0, limit)
+const MESES = ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"]
+const fmt = (d: string) => {
+    const [y, m, day] = d.split("-")
+    return { day, month: MESES[Number(m) - 1], year: y }
+}
+const longDate = (d: string) => new Date(d + "T12:00:00").toLocaleDateString("pt-BR", { day: "numeric", month: "long", year: "numeric" })
+---
+
+{
+    shows.length === 0 ? (
+        <p class="p empty">{onlyNext ? "Novas datas em breve." : "Novas datas em breve. Para bookings, use a página de contato."}</p>
+    ) : (
+        <ol class="agenda" data-agenda>
+            {shows.map((s) => {
+                const d = fmt(s.data)
+                const Tag = s.link ? "a" : "div"
+                return (
+                    <li class:list={["row", { past: s.data < today }]} data-date={s.data}>
+                        <Tag class="in" href={s.link} target={s.link ? "_blank" : undefined} rel={s.link ? "noopener noreferrer" : undefined}>
+                            <time class="date" datetime={s.data}>
+                                <span class="sr-only">{longDate(s.data)}</span>
+                                <span aria-hidden="true">
+                                    {`${d.day} ${d.month} `}
+                                    <span class="yr">{d.year}</span>
+                                </span>
+                            </time>
+                            <span class="where">
+                                <span class="venue">{s.local}</span>
+                                {s.evento && <span class="ev">{s.evento}</span>}
+                            </span>
+                            <span class="city">{s.cidade}</span>
+                            <span class="status">
+                                <span class="st-past">Realizado</span>
+                                {s.link ? <span class="st-next">Ingressos ↗</span> : <span class="st-next">Em breve</span>}
+                            </span>
+                        </Tag>
+                    </li>
+                )
+            })}
+        </ol>
+    )
+}
+
+<script>
+    // atualiza "já passou" com a data de hoje do visitante
+    const today = new Date()
+    const iso = new Date(today.getTime() - today.getTimezoneOffset() * 60000).toISOString().slice(0, 10)
+    document.querySelectorAll<HTMLElement>("[data-agenda] .row").forEach((r) => r.classList.toggle("past", (r.dataset.date || "") < iso))
+</script>
+
+<style>
+    .agenda {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        border-top: 1px solid var(--line);
+    }
+    .row {
+        border-bottom: 1px solid var(--line);
+        transition: opacity 0.3s;
+    }
+    .row.past {
+        opacity: 0.5;
+    }
+    .in {
+        display: grid;
+        grid-template-columns: 180px minmax(0, 1.4fr) minmax(0, 1fr) 140px;
+        gap: 20px;
+        align-items: baseline;
+        padding: 22px 0;
+    }
+    a.in {
+        transition: padding 0.4s var(--ease);
+    }
+    a.in:hover,
+    a.in:focus-visible {
+        padding-left: 12px;
+    }
+    .date {
+        font-size: 20px;
+    }
+    .yr,
+    .ev,
+    .city,
+    .status {
+        color: var(--muted);
+    }
+    .venue {
+        display: block;
+        font-size: 20px;
+    }
+    .ev {
+        display: block;
+        font-size: 14px;
+        margin-top: 4px;
+    }
+    .city,
+    .status {
+        font-size: 14px;
+    }
+    .status {
+        text-align: right;
+    }
+    .st-past {
+        display: none;
+    }
+    .past .st-past {
+        display: inline;
+    }
+    .past .st-next {
+        display: none;
+    }
+    a.in .st-next {
+        color: var(--fg);
+    }
+    .empty {
+        color: var(--muted);
+    }
+    @media (max-width: 809px) {
+        .in {
+            grid-template-columns: 1fr auto;
+            gap: 6px 16px;
+            padding: 18px 0;
+        }
+        .date {
+            grid-column: 1 / -1;
+            font-size: 16px;
+        }
+        .where {
+            grid-column: 1;
+        }
+        .city {
+            grid-column: 1;
+        }
+        .status {
+            grid-column: 2;
+            grid-row: 2 / 4;
+            align-self: center;
+        }
+        .venue {
+            font-size: 18px;
+        }
+    }
+</style>
