@@ -43,7 +43,10 @@ const longDate = (d: string) => new Date(d + "T12:00:00").toLocaleDateString("pt
                             </span>
                             <span class="city">{s.cidade}</span>
                             <span class="status">
-                                <span class="st-past">Realizado</span>
+                                <span class="st-past">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                                    <span class="sr-only">Realizado</span>
+                                </span>
                                 {s.link && <span class="st-next">Ingressos ↗</span>}
                             </span>
                         </Tag>
@@ -157,7 +160,9 @@ const longDate = (d: string) => new Date(d + "T12:00:00").toLocaleDateString("pt
         display: none;
     }
     .past .st-past {
-        display: inline;
+        display: inline-flex;
+        justify-content: flex-end;
+        vertical-align: middle;
     }
     .past .st-next {
         display: none;
