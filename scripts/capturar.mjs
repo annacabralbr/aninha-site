@@ -27,14 +27,18 @@ async function settle(page) {
     await page.waitForTimeout(1500)
 }
 
-while (queue.length) {
+while (queue.length && seen.size < 80) {
     const path = queue.shift()
     for (const [w, h, tag] of [
         [1440, 900, "d"],
         [390, 844, "m"],
     ]) {
         const page = await browser.newPage({ viewport: { width: w, height: h }, deviceScaleFactor: 1 })
-        await page.goto(BASE + path, { waitUntil: "networkidle", timeout: 60000 })
+        try {
+            await page.goto(BASE + path, { waitUntil: "load", timeout: 60000 })
+        } catch (e) {
+            console.log("demorou para carregar, seguindo assim mesmo:", path)
+        }
         await settle(page)
         await page.screenshot({ path: `_ref/${slug(path)}-${tag}.png`, fullPage: true })
         if (tag === "d") {
