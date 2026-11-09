@@ -1,6 +1,6 @@
 import { defineConfig } from "astro/config"
 
 export default defineConfig({
-    site: "https://www.aninha.art.br",
+    site: "https://aninha.art.br",
     trailingSlash: "ignore",
 })
