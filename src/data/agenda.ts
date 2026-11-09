@@ -4,6 +4,7 @@
 export type Show = { data: string; cidade: string; local: string; evento?: string; link?: string }
 
 export const AGENDA: Show[] = [
+    { data: "2026-01-09", cidade: "Camboriú, SC", local: "Surreal" },
     { data: "2026-08-15", cidade: "Joinville, SC", local: "Fuse" },
     { data: "2026-08-21", cidade: "Balneário Camboriú, SC", local: "Lo-Fi" },
     { data: "2026-08-22", cidade: "Lages, SC", local: "Surreal Tour" },
