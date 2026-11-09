@@ -39,13 +39,12 @@ const longDate = (d: string) => new Date(d + "T12:00:00").toLocaleDateString("pt
                                 </span>
                             </time>
                             <span class="where">
-                                <span class="venue">{s.local}</span>
-                                {s.evento && <span class="ev">{s.evento}</span>}
+                                <span class="venue">{s.evento ? `${s.evento} · ${s.local}` : s.local}</span>
                             </span>
                             <span class="city">{s.cidade}</span>
                             <span class="status">
                                 <span class="st-past">Realizado</span>
-                                {s.link ? <span class="st-next">Ingressos ↗</span> : <span class="st-next">Em breve</span>}
+                                {s.link && <span class="st-next">Ingressos ↗</span>}
                             </span>
                         </Tag>
                     </li>
