@@ -4,7 +4,7 @@
 import { chromium } from "playwright"
 import { mkdir, writeFile, access } from "node:fs/promises"
 
-const BASE = "https://aninha.art.br"
+const BASE = "https://www.aninha.art.br"
 const seen = new Set(["/"])
 const queue = ["/"]
 const images = new Map()

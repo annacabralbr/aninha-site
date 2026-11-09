@@ -22,7 +22,7 @@ def common(lang):
         ("<YouTube ", f'<YouTube lang="{lang}" '),
         ("<Labels />", f'<Labels lang="{lang}" />'),
         ("<CoverWall ", f'<CoverWall lang="{lang}" '),
-        ("https://aninha.art.br/contato?enviado=1", f"https://aninha.art.br/{lang}/contato?enviado=1"),
+        ("https://www.aninha.art.br/contato?enviado=1", f"https://www.aninha.art.br/{lang}/contato?enviado=1"),
     ]
 
 
