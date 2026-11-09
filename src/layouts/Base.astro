@@ -120,6 +120,11 @@ const isCurrent = (href: string) => (href === "/" ? path === "/" : path.startsWi
                     { rootMargin: "0px 0px -10% 0px" },
                 )
                 items.forEach((el) => io.observe(el))
+                // segurança: se o navegador não chegar a avisar (aba em segundo plano,
+                // leitores e robôs), mostra tudo para nenhum texto ficar escondido
+                setTimeout(() => {
+                    if (!document.querySelector(".blur.in")) items.forEach((el) => el.classList.add("in"))
+                }, 2500)
             }
 
             // menu do celular
