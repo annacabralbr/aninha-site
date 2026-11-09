@@ -4,6 +4,11 @@
 export type Show = { data: string; cidade: string; local: string; evento?: string; link?: string }
 
 export const AGENDA: Show[] = [
+    { data: "2026-03-07", cidade: "São Paulo, SP", local: "DRS Fest" },
+    { data: "2026-03-14", cidade: "Garibaldi, RS", local: "Cultive" },
+    { data: "2026-03-15", cidade: "Curitiba, PR", local: "Soma Galeria" },
+    { data: "2026-03-27", cidade: "Curitiba, PR", local: "Portal Kirin c/ HNQO" },
+    { data: "2026-03-28", cidade: "Maringá, PR", local: "Douha Club c/ Brisotti" },
     { data: "2026-01-09", cidade: "Camboriú, SC", local: "Surreal" },
     { data: "2026-08-15", cidade: "Joinville, SC", local: "Fuse" },
     { data: "2026-08-21", cidade: "Balneário Camboriú, SC", local: "Lo-Fi" },
