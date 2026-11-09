@@ -82,12 +82,51 @@ const longDate = (d: string) => new Date(d + "T12:00:00").toLocaleDateString("pt
         align-items: baseline;
         padding: 22px 0;
     }
-    a.in {
-        transition: padding 0.4s var(--ease);
+    /* hover: data e nome crescem 10%, a linha acende (as passadas voltam a 100%) */
+    .date,
+    .venue {
+        display: inline-block;
+        transform-origin: left center;
+        transition: transform 0.45s var(--ease);
     }
-    a.in:hover,
-    a.in:focus-visible {
-        padding-left: 12px;
+    .in {
+        position: relative;
+    }
+    .in::before {
+        content: "";
+        position: absolute;
+        inset: 0 -16px;
+        background: var(--bg-2);
+        opacity: 0;
+        transition: opacity 0.45s var(--ease);
+        z-index: -1;
+    }
+    .row {
+        position: relative;
+        z-index: 0;
+    }
+    @media (hover: hover) {
+        .row:hover {
+            opacity: 1;
+        }
+        .row:hover .date,
+        .row:hover .venue {
+            transform: scale(1.1);
+        }
+        .row:hover .in::before {
+            opacity: 1;
+        }
+    }
+    a.in:focus-visible .date,
+    a.in:focus-visible .venue {
+        transform: scale(1.1);
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .date,
+        .venue,
+        .in::before {
+            transition: none;
+        }
     }
     .date {
         font-size: 20px;
