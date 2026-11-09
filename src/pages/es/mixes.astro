@@ -1,0 +1,77 @@
+---
+import Base from "../../layouts/Base.astro"
+import SecHead from "../../components/SecHead.astro"
+import YouTube from "../../components/YouTube.astro"
+
+// Mixes na ordem do site antigo: vídeos do YouTube e sets do SoundCloud, de dois em dois.
+type Mix = { yt: string; title: string } | { sc: string; title: string }
+const mixes: Mix[] = [
+    { yt: "t474-SghIg4", title: "Live mix at D-Edge SP - Brazil" },
+    { yt: "sC-sX1kTobA", title: "Aninha @ Warung Brazil w/ Richie Hawtin - Feb26" },
+    { sc: "live-gomelyxordia-sao-paulo-br", title: "Live at Gomelyxordia, São Paulo" },
+    { sc: "aninha-capslock-festival-sp-brazil", title: "Live mix at Capslock Festival, São Paulo" },
+    { yt: "y0Y7A2ARVk4", title: "Aninha @ Housemag Festival Surreal Park - Brazil Sep25" },
+    { yt: "y0tTjhT63iU", title: "Aninha @ Terraza Brazil Jan24" },
+    { sc: "carnaval-2025-surreal-brazil", title: "Carnaval 2025, Surreal" },
+    { sc: "live-mix-at-surreal-park-ritual-brazil", title: "Live mix at Surreal Park Ritual" },
+    { sc: "d-edge-sp-brazil-warm-up-for-gui-boratto", title: "D-Edge SP, warm up for Gui Boratto" },
+    { sc: "live-mix-at-portal-kirin-curitiba-brazil", title: "Live mix at Portal Kirin, Curitiba" },
+    { yt: "2SLnCw6g6xg", title: "Aninha @ Surreal Brazil Dec/24" },
+    { yt: "-itsNcjyuoQ", title: "Aninha @ D-Edge Brazil :: Marky & Friends Night" },
+]
+const sc = (slug: string) => `https://w.soundcloud.com/player/?url=${encodeURIComponent(`https://soundcloud.com/aninha_music/${slug}`)}&color=%23ffffff&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false&visual=true`
+---
+
+<Base lang="es" title="Mixes" description="Mixes de Aninha grabados en vivo y en estudio.">
+    <section class="mixes">
+        <SecHead tag="h1" label="/Mixes" title="Mixes en vivo & estudio" />
+        <div class="grid wrap">
+            {
+                mixes.map((m) =>
+                    "yt" in m ? (
+                        <YouTube lang="es" id={m.yt} title={m.title} />
+                    ) : (
+                        <iframe class="sc" src={sc(m.sc)} title={`SoundCloud: ${m.title}`} loading="lazy" allow="autoplay" />
+                    ),
+                )
+            }
+        </div>
+        <p class="s more"><a class="flip link-text" href="https://soundcloud.com/aninha_music" target="_blank" rel="noopener noreferrer"><span>Más sets en SoundCloud ↗</span><span aria-hidden="true">Más sets en SoundCloud ↗</span></a></p>
+    </section>
+</Base>
+
+<style>
+    .mixes {
+        padding-top: 80px;
+    }
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 30px;
+        max-width: 1080px;
+        margin: 80px auto 0;
+    }
+    .sc {
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        height: auto;
+        border: 0;
+        background: var(--bg-2);
+    }
+    .more {
+        display: flex;
+        justify-content: center;
+        margin-top: 60px;
+        color: var(--fg);
+    }
+    @media (max-width: 809px) {
+        .mixes {
+            padding-top: 30px;
+        }
+        .grid {
+            grid-template-columns: 1fr;
+            gap: 20px;
+            margin-top: 40px;
+        }
+    }
+</style>

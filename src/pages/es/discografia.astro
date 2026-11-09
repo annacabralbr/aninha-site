@@ -1,0 +1,73 @@
+---
+import Base from "../../layouts/Base.astro"
+import SecHead from "../../components/SecHead.astro"
+
+// Álbuns no Spotify, na ordem do site antigo. O primeiro aparece em destaque.
+const albums = ["2967C7EpDqo5UmlUPAygpA", "2tOXBfOg3KGnwsQrn2ll6w", "4RNVyqm5uXPKci5D4oJlaS", "0ZOA6vY4HXB2G6mqG0Gte4", "7qawcrhP8PEOHhCAc2at83", "6MGUUC3UyYpYVfjstTE1OO", "14evB3117hHYREk5QDgQnr", "3HbVWcFDcD9KibfFefmRsU", "2e62hNJoyvhOErnkGnifnz", "6Soh1xjZKuWRL6zccD01IC", "4lXrmoWMAuib1luOyOxE3Y", "6yLgLnSvTYuGLjg9wv0d2b", "5Ngv1u6apoXqQczPPkhB18", "1SYS4fmEr9Syd6HFYlCMMQ", "6QjgrxBC53isRHeFHxlvcl", "1wLJpJrOkTE0pSavK0eEH0", "4lwDjSAsFGG8zj4KJ7lEkS", "11vKDUeDimhkJkPYhkJEew", "0ThoD4yOOrCcv9OnA0JlTV", "3JC8VioPIbCVlCXiUJyNiA", "0EEuTdkvzVNiF8MswW1S2k", "3r0c92c4zuVsM9aNCEjdCR", "7APuy4y0sbhrWIpDAdefkG", "117Dup2m9PORocrEVKe4GH", "4HXJ4cjYZ0JzGyyF1bJsal", "1MOkM5sEy5gBiUKHR5WTit", "0YBCUIfI3VMEI6QTj4XJuS", "3RObSxOqBmwkSMEz1Jog6h"]
+// Mostra só o destaque + 4; o catálogo completo fica no Spotify e no Beatport
+const [first, ...others] = albums
+const visible = others.slice(0, 4)
+const src = (id: string) => `https://open.spotify.com/embed/album/${id}?theme=0`
+---
+
+<Base lang="es" title="Discografía" description="Lanzamientos de Aninha: álbumes, EPs y remixes.">
+    <section class="disco">
+        <SecHead tag="h1" width={760} label="/ Discografía" title="Últimos lanzamientos" />
+        <div class="wrap">
+            <iframe class="sp sp-main" src={src(first)} title="Lanzamiento destacado en Spotify" width="100%" height="352" loading="lazy" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+            <div class="grid">
+                {visible.map((id, i) => <iframe class="sp" src={src(id)} title={`Lanzamiento ${i + 2} en Spotify`} width="100%" height="352" loading="lazy" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" />)}
+            </div>
+            <div class="outs">
+                <a class="flip link-text" href="https://open.spotify.com/artist/6dCjFLvBI3cNlTIUWSXRrf" target="_blank" rel="noopener noreferrer"><span>Más en Spotify ↗</span><span aria-hidden="true">Más en Spotify ↗</span></a>
+                <span class="sep" aria-hidden="true">/</span>
+                <a class="flip link-text" href="https://www.beatport.com/artist/aninha/106303" target="_blank" rel="noopener noreferrer"><span>Más en Beatport ↗</span><span aria-hidden="true">Más en Beatport ↗</span></a>
+            </div>
+        </div>
+    </section>
+</Base>
+
+<style>
+    .disco {
+        padding-top: 80px;
+    }
+    .sp {
+        border: 0;
+        border-radius: 12px;
+        background: var(--bg-2);
+    }
+    .sp-main {
+        max-width: 740px;
+        margin: 80px auto 0;
+    }
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 30px;
+        max-width: 740px;
+        margin: 30px auto 0;
+    }
+    .outs {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 12px 20px;
+        margin-top: 60px;
+    }
+    .sep {
+        color: var(--muted);
+    }
+    @media (max-width: 809px) {
+        .disco {
+            padding-top: 30px;
+        }
+        .sp-main {
+            margin-top: 40px;
+        }
+        .grid {
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+    }
+</style>

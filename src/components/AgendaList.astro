@@ -3,26 +3,29 @@
 // A data de hoje é conferida também no navegador, para a lista ficar certa mesmo sem
 // publicar o site de novo.
 import { AGENDA } from "../data/agenda"
+import { UI, type Lang } from "../i18n"
 interface Props {
     limit?: number
     onlyNext?: boolean
+    lang?: Lang
 }
-const { limit, onlyNext = false } = Astro.props
+const { limit, onlyNext = false, lang = "pt" } = Astro.props
+const t = UI[lang]
 const today = new Date().toISOString().slice(0, 10)
 let shows = [...AGENDA].sort((a, b) => b.data.localeCompare(a.data))
 if (onlyNext) shows = shows.filter((s) => s.data >= today).reverse()
 if (limit) shows = shows.slice(0, limit)
-const MESES = ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"]
+const MESES = t.months
 const fmt = (d: string) => {
     const [y, m, day] = d.split("-")
     return { day, month: MESES[Number(m) - 1], year: y }
 }
-const longDate = (d: string) => new Date(d + "T12:00:00").toLocaleDateString("pt-BR", { day: "numeric", month: "long", year: "numeric" })
+const longDate = (d: string) => new Date(d + "T12:00:00").toLocaleDateString(t.locale, { day: "numeric", month: "long", year: "numeric" })
 ---
 
 {
     shows.length === 0 ? (
-        <p class="p empty">Novas datas em breve.</p>
+        <p class="p empty">{t.soon}</p>
     ) : (
         <ol class="agenda" data-agenda>
             {shows.map((s) => {
@@ -45,9 +48,9 @@ const longDate = (d: string) => new Date(d + "T12:00:00").toLocaleDateString("pt
                             <span class="status">
                                 <span class="st-past">
                                     <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-                                    <span class="sr-only">Realizado</span>
+                                    <span class="sr-only">{t.done}</span>
                                 </span>
-                                {s.link && <span class="st-next">Ingressos ↗</span>}
+                                {s.link && <span class="st-next">{t.tickets}</span>}
                             </span>
                         </Tag>
                     </li>

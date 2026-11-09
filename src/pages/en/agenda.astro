@@ -1,0 +1,40 @@
+---
+import Base from "../../layouts/Base.astro"
+import SecHead from "../../components/SecHead.astro"
+import AgendaList from "../../components/AgendaList.astro"
+---
+
+<Base lang="en" title="Tour dates" description="Aninha's tour dates: upcoming and past shows.">
+    <section class="ag">
+        <SecHead tag="h1" label="/ Tour dates" title="Upcoming dates" width={760} />
+        <div class="wrap list">
+            <AgendaList lang="en" />
+            <div class="book">
+                <a class="flip link-text" href="/en/contato"><span>Bookings ↗</span><span aria-hidden="true">Bookings ↗</span></a>
+            </div>
+        </div>
+    </section>
+</Base>
+
+<style>
+    .ag {
+        padding-top: 80px;
+    }
+    .list {
+        max-width: 1080px;
+        margin: 80px auto 0;
+    }
+    .book {
+        display: flex;
+        justify-content: center;
+        margin-top: 60px;
+    }
+    @media (max-width: 809px) {
+        .ag {
+            padding-top: 30px;
+        }
+        .list {
+            margin-top: 40px;
+        }
+    }
+</style>

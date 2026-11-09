@@ -2,12 +2,15 @@
 // Mural de capas ou cartazes em três faixas que correm em sentidos alternados,
 // com as bordas sumindo no preto.
 import Marquee from "./Marquee.astro"
+import { UI, type Lang } from "../i18n"
 interface Props {
     rows: { src: string; alt: string }[][]
     href?: string
     label: string
+    lang?: Lang
 }
-const { rows, href, label } = Astro.props
+const { rows: raw, href, label, lang = "pt" } = Astro.props
+const rows = raw.map((r) => r.map((im) => ({ ...im, alt: UI[lang].alt(im.alt) })))
 ---
 
 <div class="wall" role="region" aria-label={label}>

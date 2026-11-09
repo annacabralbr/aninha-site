@@ -19,3 +19,7 @@ npm run dev
 ```
 
 A pasta `_ref/` guarda prints e o HTML do site antigo (Framer), só como referência da migração.
+
+## Inglês e espanhol
+
+As páginas em `src/pages/en/` e `src/pages/es/` são geradas a partir das páginas em português. Depois de mudar um texto em PT, atualize a tradução em `scripts/make-i18n.py` e rode `python3 scripts/make-i18n.py`. Os textos do menu, rodapé e agenda ficam em `src/i18n.ts`. A agenda (`src/data/agenda.ts`) vale para os três idiomas.

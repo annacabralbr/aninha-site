@@ -1,15 +1,17 @@
 ---
 // Vídeo do YouTube que só carrega o player ao clicar (página mais leve). Mostra a
 // miniatura do vídeo com botão de play.
+import { UI, type Lang } from "../i18n"
 interface Props {
     id: string
     title: string
+    lang?: Lang
 }
-const { id, title } = Astro.props
+const { id, title, lang = "pt" } = Astro.props
 ---
 
 <div class="yt" data-id={id} data-title={title}>
-    <button type="button" aria-label={`Assistir: ${title}`}>
+    <button type="button" aria-label={`${UI[lang].watch}: ${title}`}>
         <img src={`https://i.ytimg.com/vi/${id}/hqdefault.jpg`} alt="" loading="lazy" width="480" height="360" />
         <span class="play" aria-hidden="true"><svg viewBox="0 0 24 24" width="28" height="28"><path d="M8 5v14l11-7z" fill="currentColor"></path></svg></span>
     </button>

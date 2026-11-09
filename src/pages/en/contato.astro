@@ -1,0 +1,215 @@
+---
+import Base from "../../layouts/Base.astro"
+
+// O formulário envia pelo FormSubmit (gratuito) direto para o e-mail da Aninha.
+// Na primeira mensagem, o FormSubmit manda um e-mail pedindo para ativar o endereço.
+const TO = "aninhadj@gmail.com"
+---
+
+<Base lang="en" title="Contact" description="Contact and bookings for Aninha.">
+    <section class="contact">
+        <video class="bg" src="/video/contato.mp4" poster="/img/contato-poster.jpg" autoplay muted loop playsinline aria-hidden="true"></video>
+        <div class="panel">
+            <h1 class="h2">Contact, bookings & questions</h1>
+
+            <p class="ok" id="ok" hidden role="status">Message sent. Thank you! I'll reply as soon as I can.</p>
+
+            <form action={`https://formsubmit.co/${TO}`} method="POST" class="form">
+                <fieldset class="tipo">
+                    <legend class="sr-only">Type of contact</legend>
+                    <label><input type="radio" name="Tipo" value="Pessoal" checked /><span>Personal</span></label>
+                    <span class="sl" aria-hidden="true">/</span>
+                    <label><input type="radio" name="Tipo" value="Comercial" /><span>Business</span></label>
+                </fieldset>
+
+                <input type="hidden" name="_subject" value="Contact from aninha.art.br (EN)" />
+                <input type="hidden" name="_template" value="table" />
+                <input type="hidden" name="_captcha" value="false" />
+                <input type="hidden" name="_next" value="https://www.aninha.art.br/en/contato?enviado=1" />
+                <input type="text" name="_honey" class="sr-only" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+                <div class="fields">
+                    <label class="f">
+                        <span class="s">Name*</span>
+                        <input name="Nome" type="text" placeholder="your name" required autocomplete="name" />
+                    </label>
+                    <label class="f">
+                        <span class="s">Instagram</span>
+                        <input name="Instagram" type="text" placeholder="your instagram" autocomplete="off" />
+                    </label>
+                    <label class="f">
+                        <span class="s">Email*</span>
+                        <input name="email" type="email" placeholder="your best email" required autocomplete="email" />
+                    </label>
+                    <label class="f">
+                        <span class="s">City</span>
+                        <input name="Cidade" type="text" placeholder="your city" autocomplete="address-level2" />
+                    </label>
+                    <label class="f full">
+                        <span class="s">Message*</span>
+                        <textarea name="Mensagem" rows="4" placeholder="write your message :)" required></textarea>
+                    </label>
+                </div>
+
+                <button type="submit" class="send link-text">
+                    <svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path d="M8 5v14l11-7z" fill="currentColor"></path></svg>
+                    Send
+                </button>
+            </form>
+        </div>
+    </section>
+</Base>
+
+<script>
+    if (new URLSearchParams(location.search).has("enviado")) {
+        const ok = document.getElementById("ok")
+        if (ok) ok.hidden = false
+        document.querySelector<HTMLFormElement>(".form")?.setAttribute("hidden", "")
+    }
+</script>
+
+<style>
+    .contact {
+        position: relative;
+        min-height: 900px;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        padding: 20px var(--gutter) 80px;
+        margin-top: -96px;
+        padding-top: 116px;
+        overflow: hidden;
+    }
+    .bg {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: brightness(0.6);
+        -webkit-mask-image: linear-gradient(to bottom, #000 75%, transparent);
+        mask-image: linear-gradient(to bottom, #000 75%, transparent);
+    }
+    .panel {
+        position: relative;
+        width: min(700px, 100%);
+        background: rgba(23, 23, 23, 0.72);
+        -webkit-backdrop-filter: blur(14px);
+        backdrop-filter: blur(14px);
+        border-radius: 12px;
+        padding: 50px;
+        display: flex;
+        flex-direction: column;
+        gap: 36px;
+    }
+    .tipo {
+        border: 0;
+        padding: 0;
+        margin: 0 0 30px;
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        font-size: 16px;
+    }
+    .tipo label {
+        cursor: pointer;
+        min-height: 32px;
+        display: inline-flex;
+        align-items: center;
+    }
+    .tipo input {
+        position: absolute;
+        opacity: 0;
+        width: 1px;
+        height: 1px;
+    }
+    .tipo span {
+        color: var(--muted);
+        transition: color 0.3s;
+    }
+    .tipo input:checked + span {
+        color: var(--fg);
+    }
+    .tipo input:focus-visible + span {
+        outline: 2px solid var(--fg);
+        outline-offset: 4px;
+    }
+    .sl {
+        color: var(--muted);
+    }
+    .fields {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 22px 16px;
+    }
+    .f {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+    .f .s {
+        font-size: 11px;
+    }
+    .full {
+        grid-column: 1 / -1;
+    }
+    input,
+    textarea {
+        font: inherit;
+        font-size: 14px;
+        text-transform: none;
+        color: var(--fg);
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid transparent;
+        border-radius: 6px;
+        padding: 12px 12px;
+        min-height: 44px;
+        width: 100%;
+    }
+    input::placeholder,
+    textarea::placeholder {
+        color: #8c8c8c;
+    }
+    input:focus,
+    textarea:focus {
+        outline: none;
+        border-color: rgba(255, 255, 255, 0.6);
+    }
+    textarea {
+        resize: vertical;
+    }
+    .send {
+        margin-top: 30px;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        min-height: 44px;
+        padding: 0 4px;
+        background: none;
+        border: 0;
+        color: var(--fg);
+        cursor: pointer;
+        font-family: inherit;
+        text-transform: uppercase;
+    }
+    .send:hover {
+        opacity: 0.75;
+    }
+    .ok {
+        margin: 0;
+        font-size: 16px;
+    }
+    @media (max-width: 809px) {
+        .contact {
+            margin-top: -72px;
+            padding-top: 90px;
+            min-height: 0;
+        }
+        .panel {
+            padding: 28px 20px;
+        }
+        .fields {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>

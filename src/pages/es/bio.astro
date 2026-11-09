@@ -1,0 +1,187 @@
+---
+import Base from "../../layouts/Base.astro"
+import SecHead from "../../components/SecHead.astro"
+import CoverWall from "../../components/CoverWall.astro"
+import Labels from "../../components/Labels.astro"
+import { POSTERS } from "../../data/site"
+
+const bio = [
+    "Aninha encarna esa esencia: DJ, productora musical, empresaria e impulsora de la escena electrónica, cuya trayectoria de 20 años redefine el panorama musical brasileño.",
+    "Nacida en Santa Catarina y radicada en Curitiba, quería vivir de la música y rompió barreras como pionera de las mujeres en la música electrónica de Brasil.",
+    "Su camino la llevó de norte a sur, dejando su sello sonoro como DJ residente en pistas reconocidas como Warung Beach Club, Club Vibe y D-Edge.",
+    "Aninha es más que una DJ: es una artista que teje una narrativa sonora, con una investigación musical profunda y estilos poco comunes.",
+    "Su residencia en Warung durante más de una década y su presencia constante en clubes reconocidos muestran su capacidad para construir conceptos sonoros de vanguardia.",
+    "Desde 2019 es residente del grupo D-Edge / Surreal, reforzando su presencia en proyectos innovadores y de gran prestigio en Brasil.",
+    "Su talento y profesionalismo la consolidaron como una de las DJs más importantes de la historia de la música electrónica brasileña, con presencia en line-ups nacionales e internacionales.",
+    "Más allá de la cabina, Aninha formó parte de proyectos exitosos como AIA Records, sello que cumple 10 años impulsando no solo sus producciones, sino también talentos brasileños, exportando la cultura de la pista de baile al mundo.",
+    "Pasaron dos décadas y el espíritu de vanguardia de Aninha sigue vivo. Su búsqueda constante de innovación la convierte en inspiración para las próximas generaciones de mujeres en la música electrónica.",
+]
+
+const career = [
+    ["2003 - 2017", "Club Vibe", "DJ residente"],
+    ["2005 - 2017", "Warung Beach Club", "DJ residente"],
+    ["2006 - 2017", "Warung Tour", "Europa"],
+    ["2007", "Tour", "Europa"],
+    ["2009", "Tour", "Bolivia"],
+    ["2010", "Tour", "Europa"],
+    ["2011 - 2015", "Fabrik PVT Party Abu Dhabi", "Artista exclusiva"],
+    ["2012 - 2017", "24bit Management", "Socia fundadora"],
+    ["2014", "Tour", "Colombia"],
+    ["2015", "Tour", "Perú"],
+    ["2015 - hoy", "AIA Records", "Creadora"],
+    ["2016", "Tour", "Estados Unidos"],
+    ["2016", "Tour", "Colombia"],
+    ["2017", "Alliance Artists", "Socia fundadora"],
+    ["2017 - 2019", "Seas Label", "Socia creadora"],
+    ["2017 - hoy", "Neanderthal Records", "Socia fundadora"],
+    ["2018 - 2020", "Roland AIRA América Latina", "Artista exclusiva"],
+    ["2019", "Tour", "Argentina"],
+    ["2019 - 2022", "Terraza", "DJ residente"],
+    ["2019 - hoy", "D-Edge", "DJ residente"],
+    ["2023", "Tour", "Europa"],
+    ["2024 - hoy", "Fulana Records", "Fundadora"],
+]
+---
+
+<Base lang="es" title="Bio" description="Biografía de Aninha: 20 años de pista, residencias en Warung, Club Vibe y D-Edge, sellos y giras.">
+    <section class="intro">
+        <SecHead tag="h1" width={860} label="/ Bio" title="Aninha es más que una DJ, es una artista que teje una narrativa sonora" />
+        <div class="intro-body wrap">
+            <img src="/img/bio-cabine.jpg" alt="Aninha con el brazo en alto en la cabina, frente a una pista llena" width="1200" height="801" loading="lazy" />
+            <div class="intro-text">
+                {bio.map((t) => <p class="p blur">{t}</p>)}
+            </div>
+        </div>
+    </section>
+
+    <section class="studio sec">
+        <img src="/img/bio-pista.jpg" alt="Aninha y otro DJ en la cabina de Surreal frente a la pista llena" width="1920" height="1280" loading="lazy" />
+        <p class="p studio-text blur">En un mundo en constante evolución, Aninha es un faro, siempre mirando a lo nuevo, al cambio, al bien y a lo mejor. Su refugio está en ella misma, donde su música y su corazón encuentran sentido y autenticidad.</p>
+    </section>
+
+    <section class="sec" aria-label="Historia">
+        <SecHead label="/Historia" title="Una carrera sólida" />
+        <div class="wrap">
+            <table class="career">
+                <caption class="sr-only">Línea de tiempo de la carrera</caption>
+                <thead class="sr-only">
+                    <tr><th scope="col">Período</th><th scope="col">Dónde</th><th scope="col">Rol</th></tr>
+                </thead>
+                <tbody>
+                    {
+                        career.map(([y, w, r]) => (
+                            <tr>
+                                <td class="muted">{y}</td>
+                                <td>{w}</td>
+                                <td class="muted">{r}</td>
+                            </tr>
+                        ))
+                    }
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="sec" aria-label="Principales sellos">
+        <p class="s center">/ Principales sellos</p>
+        <div class="labels-wrap"><Labels lang="es" /></div>
+        <div class="posters">
+            <CoverWall lang="es" rows={POSTERS} label="Afiches de eventos" />
+        </div>
+    </section>
+</Base>
+
+<style>
+    .intro {
+        padding-top: 80px;
+    }
+    .intro-body {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 60px;
+        margin-top: 80px;
+    }
+    .intro-body img {
+        width: min(640px, 48%);
+        height: auto;
+        aspect-ratio: 0.9;
+        object-fit: cover;
+        border-radius: 10px;
+    }
+    .intro-text {
+        width: min(400px, 100%);
+        flex: none;
+        margin-right: 18%;
+    }
+    .studio {
+        position: relative;
+    }
+    .studio img {
+        width: 100%;
+        height: auto;
+        min-height: 520px;
+        object-fit: cover;
+    }
+    .studio-text {
+        position: absolute;
+        left: 50%;
+        bottom: 10%;
+        transform: translateX(-50%);
+        width: min(300px, 100% - 2 * var(--gutter));
+        text-align: center;
+        text-shadow: 0 1px 12px rgba(0, 0, 0, 0.8);
+    }
+    .career {
+        width: min(1080px, 100%);
+        margin: 80px auto 0;
+        border-collapse: collapse;
+        font-size: 14px;
+    }
+    .career td {
+        width: 33.33%;
+        padding: 12px 10px 12px 0;
+        border-top: 1px solid var(--line);
+        vertical-align: top;
+    }
+    .career tr:last-child td {
+        border-bottom: 1px solid var(--line);
+    }
+    .muted {
+        color: var(--muted);
+    }
+    .center {
+        text-align: center;
+    }
+    .labels-wrap {
+        margin-top: 40px;
+    }
+    .posters {
+        margin-top: 80px;
+    }
+    @media (max-width: 1199px) {
+        .intro-text {
+            margin-right: 0;
+        }
+    }
+    @media (max-width: 809px) {
+        .intro {
+            padding-top: 30px;
+        }
+        .intro-body {
+            flex-direction: column;
+            margin-top: 40px;
+            gap: 40px;
+        }
+        .intro-body img {
+            width: 100%;
+        }
+        .studio img {
+            min-height: 640px;
+        }
+        .career {
+            margin-top: 40px;
+            font-size: 13px;
+        }
+    }
+</style>

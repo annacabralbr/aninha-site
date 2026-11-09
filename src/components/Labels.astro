@@ -2,9 +2,11 @@
 // Faixa grande com as gravadoras.
 import Marquee from "./Marquee.astro"
 import { LABELS } from "../data/site"
+import { UI, type Lang } from "../i18n"
+const { lang = "pt" } = Astro.props as { lang?: Lang }
 ---
 
-<Marquee speed={36} label="Gravadoras" class="labels">
+<Marquee speed={36} label={UI[lang].labels} class="labels">
     {
         LABELS.map((l) => (
             <span class="lab">

@@ -2,22 +2,28 @@
 import "../styles/global.css"
 import Flip from "../components/Flip.astro"
 import { NAV, SOCIAL } from "../data/site"
+import { UI, LANGS, HTML_LANG, href as to, switchTo, type Lang } from "../i18n"
 
 interface Props {
     title?: string
     description: string
     home?: boolean
     image?: string
+    lang?: Lang
 }
-const { title, description, home = false, image = "/img/og.jpg" } = Astro.props
-const fullTitle = title ? `${title} · Aninha` : "Aninha | DJ & Produtora de Música Eletrônica"
+const { title, description, home = false, image = "/img/og.jpg", lang = "pt" } = Astro.props
+const t = UI[lang]
+const fullTitle = title ? `${title} · Aninha` : t.siteTitle
 const path = Astro.url.pathname.replace(/\/$/, "") || "/"
 const canonical = new URL(path, Astro.site)
-const isCurrent = (href: string) => (href === "/" ? path === "/" : path.startsWith(href))
+const nav = NAV.map((n, i) => ({ href: to(lang, n.href), label: t.nav[i] }))
+const homeHref = to(lang, "/")
+const norm = (h: string) => h.replace(/\/$/, "") || "/"
+const isCurrent = (h: string) => (norm(h) === norm(homeHref) ? path === norm(h) : path.startsWith(norm(h)))
 ---
 
 <!doctype html>
-<html lang="pt-BR">
+<html lang={HTML_LANG[lang]}>
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
@@ -30,6 +36,8 @@ const isCurrent = (href: string) => (href === "/" ? path === "/" : path.startsWi
         <meta property="og:url" content={canonical} />
         <meta property="og:image" content={new URL(image, Astro.site)} />
         <meta name="theme-color" content="#000000" />
+        {LANGS.map((l) => <link rel="alternate" hreflang={HTML_LANG[l]} href={new URL(switchTo(path, l), Astro.site)} />)}
+        <link rel="alternate" hreflang="x-default" href={new URL(switchTo(path, "pt"), Astro.site)} />
         <link rel="icon" href="/favicon.png" type="image/png" />
         <script is:inline>document.documentElement.classList.add("js")</script>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -37,28 +45,37 @@ const isCurrent = (href: string) => (href === "/" ? path === "/" : path.startsWi
         <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,600&display=swap" rel="stylesheet" />
     </head>
     <body>
-        <a class="skip" href="#conteudo">Pular para o conteúdo</a>
+        <a class="skip" href="#conteudo">{t.skip}</a>
 
         <header class:list={["top", { "top-home": home }]}>
             <div class="top-bar">
                 {
                     !home && (
-                        <a class="top-logo" href="/" aria-label="Aninha, página inicial">
+                        <a class="top-logo" href={homeHref} aria-label={t.home}>
                             <img src="/img/logo.png" alt="" width="1022" height="160" />
                         </a>
                     )
                 }
-                <nav class="top-nav" aria-label="Principal">
-                    {NAV.map((n) => <Flip href={n.href} label={n.label} current={isCurrent(n.href)} />)}
+                <nav class="top-nav" aria-label={t.navMain}>
+                    {nav.map((n) => <Flip href={n.href} label={n.label} current={isCurrent(n.href)} />)}
                 </nav>
+                <div class="langs" role="group" aria-label={t.langs}>
+                    {
+                        LANGS.map((l) => (
+                            <a href={switchTo(path, l)} hreflang={HTML_LANG[l]} lang={HTML_LANG[l]} aria-current={l === lang ? "true" : undefined}>
+                                {l}
+                            </a>
+                        ))
+                    }
+                </div>
                 <button class="menu-btn" type="button" aria-expanded="false" aria-controls="menu">
-                    <span class="sr-only">Abrir menu</span>
+                    <span class="sr-only" data-open={t.openMenu} data-close={t.closeMenu}>{t.openMenu}</span>
                     <span class="bars" aria-hidden="true"><i></i><i></i></span>
                 </button>
             </div>
             {
                 home && (
-                    <a class="home-logo" href="/" aria-label="Aninha, página inicial">
+                    <a class="home-logo" href={homeHref} aria-label={t.home}>
                         <img src="/img/logo.png" alt="" width="1022" height="160" />
                     </a>
                 )
@@ -68,7 +85,7 @@ const isCurrent = (href: string) => (href === "/" ? path === "/" : path.startsWi
         <div class="menu" id="menu" hidden>
             <nav aria-label="Menu">
                 {
-                    NAV.map((n) => (
+                    nav.map((n) => (
                         <a class="h1" href={n.href} aria-current={isCurrent(n.href) ? "page" : undefined}>
                             {n.label}
                         </a>
@@ -91,10 +108,10 @@ const isCurrent = (href: string) => (href === "/" ? path === "/" : path.startsWi
         </main>
 
         <footer class="foot">
-            <img class="foot-img" src="/img/footer.jpg" alt="Retrato em preto e branco da Aninha" loading="lazy" width="1600" height="1067" />
+            <img class="foot-img" src="/img/footer.jpg" alt={t.footerAlt} loading="lazy" width="1600" height="1067" />
             <div class="foot-in wrap">
-                <nav class="foot-nav" aria-label="Rodapé">
-                    {NAV.map((n) => <Flip href={n.href} label={n.label} />)}
+                <nav class="foot-nav" aria-label={t.footer}>
+                    {nav.map((n) => <Flip href={n.href} label={n.label} />)}
                 </nav>
                 <hr />
                 <div class="foot-nav">
@@ -133,7 +150,8 @@ const isCurrent = (href: string) => (href === "/" ? path === "/" : path.startsWi
             const setOpen = (open: boolean) => {
                 if (!btn || !menu) return
                 btn.setAttribute("aria-expanded", String(open))
-                btn.querySelector(".sr-only")!.textContent = open ? "Fechar menu" : "Abrir menu"
+                const sr = btn.querySelector<HTMLElement>(".sr-only")!
+                sr.textContent = (open ? sr.dataset.close : sr.dataset.open) || ""
                 menu.hidden = !open
                 document.body.style.overflow = open ? "hidden" : ""
                 if (open) menu.querySelector<HTMLElement>("a")?.focus()
@@ -171,6 +189,25 @@ const isCurrent = (href: string) => (href === "/" ? path === "/" : path.startsWi
     .top-home .top-nav {
         flex: 1;
         justify-content: space-between;
+    }
+    .langs {
+        display: flex;
+        gap: 4px;
+        margin-left: 30px;
+    }
+    .langs a {
+        font-size: 12px;
+        font-weight: 600;
+        min-width: 28px;
+        min-height: 28px;
+        display: inline-grid;
+        place-items: center;
+        color: var(--muted);
+        transition: color 0.3s;
+    }
+    .langs a:hover,
+    .langs a[aria-current="true"] {
+        color: var(--fg);
     }
     .top-logo img {
         width: 80px;
@@ -316,6 +353,9 @@ const isCurrent = (href: string) => (href === "/" ? path === "/" : path.startsWi
         }
         .menu-btn {
             display: block;
+        }
+        .langs {
+            margin-left: auto;
         }
         .top-home .top-bar {
             justify-content: flex-end;
