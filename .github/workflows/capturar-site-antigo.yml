@@ -1,0 +1,26 @@
+# Captura o site antigo (Framer) para servir de referência na migração:
+# prints de cada página no computador e no celular, HTML renderizado e imagens.
+name: Capturar site antigo
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: [scripts/capturar.mjs, .github/workflows/capturar-site-antigo.yml]
+permissions:
+  contents: write
+jobs:
+  capturar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm i --no-save playwright@1.48.2 && npx playwright install --with-deps chromium
+      - run: node scripts/capturar.mjs
+      - run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add _ref public/img
+          git commit -m "Referência do site antigo" || echo "nada novo"
+          git push
