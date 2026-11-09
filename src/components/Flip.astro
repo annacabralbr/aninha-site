@@ -1,0 +1,14 @@
+---
+// Link do menu: no hover o texto sobe e uma cópia entra por baixo.
+interface Props {
+    href: string
+    label: string
+    external?: boolean
+    current?: boolean
+}
+const { href, label, external = false, current = false } = Astro.props
+---
+
+<a class="flip link-text" href={href} target={external ? "_blank" : undefined} rel={external ? "noopener noreferrer" : undefined} aria-current={current ? "page" : undefined}>
+    <span>{label}</span><span aria-hidden="true">{label}</span>
+</a>

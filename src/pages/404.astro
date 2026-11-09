@@ -1,0 +1,21 @@
+---
+import Base from "../layouts/Base.astro"
+---
+
+<Base title="Página não encontrada" description="Esta página não existe.">
+    <section class="nf wrap">
+        <p class="s">/ 404</p>
+        <h1 class="h1">Essa faixa não está no set.</h1>
+        <a class="flip link-text" href="/"><span>Voltar para o início</span><span aria-hidden="true">Voltar para o início</span></a>
+    </section>
+</Base>
+
+<style>
+    .nf {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        padding-top: 120px;
+        min-height: 50vh;
+    }
+</style>

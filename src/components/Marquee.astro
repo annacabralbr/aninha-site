@@ -1,0 +1,53 @@
+---
+// Faixa que corre sozinha na horizontal. O conteúdo é repetido para o loop não ter
+// emenda. Pausa no hover e fica parada com "reduzir movimento".
+interface Props {
+    speed?: number // segundos por volta
+    reverse?: boolean
+    label?: string
+    class?: string
+}
+const { speed = 40, reverse = false, label, class: cls } = Astro.props
+---
+
+<div class:list={["mq", cls]} role={label ? "region" : undefined} aria-label={label}>
+    <div class:list={["mq-track", { rev: reverse }]} style={`--dur:${speed}s`}>
+        <div class="mq-set"><slot /></div>
+        <div class="mq-set" aria-hidden="true"><slot /></div>
+    </div>
+</div>
+
+<style>
+    .mq {
+        width: 100%;
+        overflow: hidden;
+    }
+    .mq-track {
+        display: flex;
+        width: max-content;
+        animation: mq var(--dur) linear infinite;
+    }
+    .mq-track.rev {
+        animation-direction: reverse;
+    }
+    .mq:hover .mq-track {
+        animation-play-state: paused;
+    }
+    .mq-set {
+        display: flex;
+        flex: none;
+    }
+    @keyframes mq {
+        to {
+            transform: translateX(-50%);
+        }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .mq-track {
+            animation: none;
+        }
+        .mq {
+            overflow-x: auto;
+        }
+    }
+</style>

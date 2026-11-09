@@ -1,0 +1,7 @@
+{
+    "redirects": [
+        { "source": "/discografia/:slug", "destination": "/discografia", "permanent": true },
+        { "source": "/mixes/:slug", "destination": "/mixes", "permanent": true },
+        { "source": "/pagina-de-erro", "destination": "/", "permanent": true }
+    ]
+}

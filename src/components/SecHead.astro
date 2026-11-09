@@ -1,0 +1,20 @@
+---
+// Cabeçalho de seção: seta para baixo, rótulo pequeno e título grande.
+import Arrow from "./Arrow.astro"
+interface Props {
+    label: string
+    title: string
+    tag?: "h1" | "h2"
+    width?: number
+}
+const { label, title, tag = "h2", width } = Astro.props
+const Tag = tag
+---
+
+<header class="sec-head wrap">
+    <Arrow />
+    <div class="titles">
+        <p class="s blur">{label}</p>
+        <Tag class="h1 blur" style={width ? `max-width:${width}px` : undefined}>{title}</Tag>
+    </div>
+</header>

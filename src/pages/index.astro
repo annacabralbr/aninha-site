@@ -1,0 +1,157 @@
+---
+import Base from "../layouts/Base.astro"
+import SecHead from "../components/SecHead.astro"
+import Arrow from "../components/Arrow.astro"
+import CoverWall from "../components/CoverWall.astro"
+import Labels from "../components/Labels.astro"
+import { COVERS } from "../data/site"
+---
+
+<Base home description="Site oficial da artista. Confira os lançamentos, informações, sets e contato para bookings.">
+    <section class="hero" aria-label="Aninha">
+        <img class="portrait" src="/img/retrato.jpg" alt="Retrato em preto e branco da Aninha" width="1100" height="1286" fetchpriority="high" />
+    </section>
+
+    <section class="tagline wrap">
+        <div class="tl-title">
+            <Arrow />
+            <h1 class="h2 blur">DJ baseada em Curitiba PR,</h1>
+        </div>
+        <div class="tl-text">
+            <p class="p blur">Responsável por moldar a identidade sonora de clubs como Warung, Club Vibe e Terraza.</p>
+            <p class="p blur">Com mais de 20 anos de pista, Aninha foi residente de longa data no Warung Beach Club e no Club Vibe, além de integrar o ecossistema D-Edge e o Surreal Park desde 2019.</p>
+        </div>
+    </section>
+
+    <section class="about sec">
+        <img src="/img/pista-warung.jpg" alt="Aninha tocando para a pista lotada, vista de trás da cabine" width="1397" height="931" loading="lazy" />
+        <div class="about-text">
+            <p class="p blur">Aninha é referência sul-americana quando o assunto é warm up: pesquisadora, pioneira e especialista em criar atmosferas que transitam do house ao techno com precisão.</p>
+            <a class="flip link-text" href="/bio"><span>Bio</span><span aria-hidden="true">Bio</span></a>
+        </div>
+    </section>
+
+    <section class="sec" aria-label="Lançamentos">
+        <SecHead label="/ Lançamentos" title="Albuns, EPs & remixes" />
+        <div class="wall-wrap">
+            <CoverWall rows={COVERS} href="/discografia" label="Capas de lançamentos" />
+        </div>
+    </section>
+
+    <div class="sec"><Labels /></div>
+
+    <section class="sec" aria-label="Mixes">
+        <SecHead label="/Mixes" title="Mixes gravados ao vivo & estúdio" />
+        <a class="mixes-img wrap" href="/mixes" aria-label="Ouvir os mixes">
+            <img src="/img/mixes.jpg" alt="" width="1800" height="1201" loading="lazy" />
+        </a>
+    </section>
+</Base>
+
+<style>
+    .hero {
+        display: flex;
+        justify-content: center;
+        padding: 40px var(--gutter) 0;
+    }
+    .portrait {
+        width: min(660px, 100%);
+        height: auto;
+        aspect-ratio: 0.665;
+        object-fit: cover;
+        object-position: 50% 30%;
+        border-radius: 10px;
+        -webkit-mask-image: radial-gradient(ellipse 75% 70% at 50% 45%, #000 55%, transparent 100%);
+        mask-image: radial-gradient(ellipse 75% 70% at 50% 45%, #000 55%, transparent 100%);
+    }
+    .tagline {
+        display: flex;
+        justify-content: space-between;
+        gap: 50px;
+        margin-top: 120px;
+    }
+    .tl-title {
+        display: flex;
+        gap: 40px;
+        align-items: flex-start;
+    }
+    .tl-title :global(.arrow) {
+        width: 30px;
+        height: 30px;
+        flex: none;
+        margin-top: 10px;
+    }
+    .tl-title h1 {
+        max-width: 420px;
+    }
+    .tl-text {
+        width: min(400px, 100%);
+        flex: none;
+        margin-right: 18%;
+    }
+    .about {
+        position: relative;
+        display: flex;
+        justify-content: center;
+    }
+    .about img {
+        width: min(1130px, 100%);
+        height: auto;
+        -webkit-mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, #000 60%, transparent 100%);
+        mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, #000 60%, transparent 100%);
+    }
+    .about-text {
+        position: absolute;
+        bottom: 12%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: min(330px, 100% - 2 * var(--gutter));
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+    .wall-wrap {
+        margin-top: 60px;
+    }
+    .mixes-img {
+        display: block;
+        margin-top: 100px;
+    }
+    .mixes-img img {
+        width: min(1140px, 100%);
+        margin: 0 auto;
+        height: auto;
+        aspect-ratio: 3;
+        object-fit: cover;
+        transition: filter 0.5s var(--ease);
+    }
+    .mixes-img:hover img {
+        filter: brightness(1.15);
+    }
+    @media (max-width: 1199px) {
+        .tl-text {
+            margin-right: 0;
+        }
+    }
+    @media (max-width: 809px) {
+        .tagline {
+            flex-direction: column;
+            gap: 40px;
+            margin-top: 40px;
+        }
+        .tl-title :global(.arrow) {
+            display: none;
+        }
+        .about-text {
+            bottom: 6%;
+        }
+        .mixes-img {
+            margin-top: 50px;
+        }
+        .mixes-img img {
+            aspect-ratio: 4 / 5;
+        }
+    }
+</style>

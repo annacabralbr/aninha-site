@@ -1,0 +1,41 @@
+---
+// Faixa grande com as gravadoras.
+import Marquee from "./Marquee.astro"
+import { LABELS } from "../data/site"
+---
+
+<Marquee speed={36} label="Gravadoras" class="labels">
+    {
+        LABELS.map((l) => (
+            <span class="lab">
+                {l}
+                <span class="sl" aria-hidden="true">/</span>
+            </span>
+        ))
+    }
+</Marquee>
+
+<style>
+    .lab {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6em;
+        padding-right: 0.6em;
+        font-size: 64px;
+        line-height: 1.2;
+        letter-spacing: -0.03em;
+        white-space: nowrap;
+    }
+    .sl {
+        color: var(--muted);
+    }
+    :global(.labels) {
+        -webkit-mask-image: linear-gradient(to right, transparent, #000 15%, #000 85%, transparent);
+        mask-image: linear-gradient(to right, transparent, #000 15%, #000 85%, transparent);
+    }
+    @media (max-width: 809px) {
+        .lab {
+            font-size: 40px;
+        }
+    }
+</style>
