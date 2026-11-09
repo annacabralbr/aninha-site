@@ -46,8 +46,19 @@ while (queue.length && seen.size < 80) {
             await writeFile(`_ref/${slug(path)}.txt`, await page.evaluate(() => document.body.innerText))
             const found = await page.evaluate(() => ({
                 links: [...document.querySelectorAll("a[href]")].map((a) => new URL(a.getAttribute("href"), location.href)).filter((u) => u.origin === location.origin).map((u) => u.pathname),
-                imgs: [...document.querySelectorAll("img")].map((i) => i.currentSrc || i.src).concat([...document.querySelectorAll("*")].map((e) => getComputedStyle(e).backgroundImage).filter((b) => b.includes("framerusercontent")).map((b) => b.slice(5, -2))),
+                imgs: [...document.querySelectorAll("img")].map((i) => i.currentSrc || i.src).concat([...document.querySelectorAll("video")].flatMap((v) => [v.src, v.poster])).concat([...document.querySelectorAll("*")].map((e) => getComputedStyle(e).backgroundImage).filter((b) => b.includes("framerusercontent")).map((b) => b.slice(5, -2))),
             }))
+            if (path === "/contato") {
+                // formulário comercial: troca a aba e salva também
+                try {
+                    await page.getByText("COMERCIAL", { exact: true }).first().click()
+                    await page.waitForTimeout(1500)
+                    await page.screenshot({ path: "_ref/contato-comercial-d.png", fullPage: true })
+                    await writeFile("_ref/contato-comercial.html", await page.content())
+                } catch (e) {
+                    console.log("sem aba comercial", e.message)
+                }
+            }
             for (const l of found.links) {
                 const p = l.replace(/\/$/, "") || "/"
                 if (!seen.has(p)) {
@@ -63,6 +74,8 @@ while (queue.length && seen.size < 80) {
         await page.close()
     }
 }
+// arquivos usados em CSS (texturas) também vão
+for (const f of ["fx4U97qkoGSIvuUQfvE8HZx3pa4.png"]) images.set(f, "https://framerusercontent.com/assets/" + f)
 await browser.close()
 
 for (const [name, url] of images) {
