@@ -22,7 +22,7 @@ const longDate = (d: string) => new Date(d + "T12:00:00").toLocaleDateString("pt
 
 {
     shows.length === 0 ? (
-        <p class="p empty">{onlyNext ? "Novas datas em breve." : "Novas datas em breve. Para bookings, use a página de contato."}</p>
+        <p class="p empty">Novas datas em breve.</p>
     ) : (
         <ol class="agenda" data-agenda>
             {shows.map((s) => {

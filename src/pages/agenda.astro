@@ -9,7 +9,9 @@ import AgendaList from "../components/AgendaList.astro"
         <SecHead tag="h1" label="/ Agenda" title="Próximas datas" width={760} />
         <div class="wrap list">
             <AgendaList />
-            <p class="s book">Para bookings: <a class="flip link-text" href="/contato"><span>Contato</span><span aria-hidden="true">Contato</span></a></p>
+            <div class="book">
+                <a class="flip link-text" href="/contato"><span>Bookings ↗</span><span aria-hidden="true">Bookings ↗</span></a>
+            </div>
         </div>
     </section>
 </Base>
@@ -24,9 +26,8 @@ import AgendaList from "../components/AgendaList.astro"
     }
     .book {
         display: flex;
-        gap: 12px;
-        align-items: center;
-        margin-top: 40px;
+        justify-content: center;
+        margin-top: 60px;
     }
     @media (max-width: 809px) {
         .ag {
