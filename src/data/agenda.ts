@@ -4,6 +4,9 @@
 export type Show = { data: string; cidade: string; local: string; evento?: string; link?: string }
 
 export const AGENDA: Show[] = [
+    { data: "2026-02-07", cidade: "Curitiba, PR", local: "Ananás" },
+    { data: "2026-02-13", cidade: "Itajaí, SC", local: "Warung Beach Club" },
+    { data: "2026-04-03", cidade: "Camboriú, SC", local: "Surreal" },
     { data: "2026-03-07", cidade: "São Paulo, SP", local: "DRS Fest" },
     { data: "2026-03-14", cidade: "Garibaldi, RS", local: "Cultive" },
     { data: "2026-03-15", cidade: "Curitiba, PR", local: "Soma Galeria" },
