@@ -1,11 +1,9 @@
 # Captura o site antigo (Framer) para servir de referência na migração:
 # prints de cada página no computador e no celular, HTML renderizado e imagens.
 name: Capturar site antigo
+# Só roda manualmente: o site antigo já foi capturado e o domínio agora é do site novo.
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths: [scripts/capturar.mjs, .github/workflows/capturar-site-antigo.yml]
 permissions:
   contents: write
 jobs:
