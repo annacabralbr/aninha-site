@@ -4,6 +4,7 @@
 export type Show = { data: string; cidade: string; local: string; evento?: string; link?: string }
 
 export const AGENDA: Show[] = [
+    { data: "2026-12-30", cidade: "Balneário Camboriú, SC", local: "Acaiá" },
     { data: "2026-02-07", cidade: "Curitiba, PR", local: "Ananás" },
     { data: "2026-02-13", cidade: "Itajaí, SC", local: "Warung Beach Club" },
     { data: "2026-04-03", cidade: "Camboriú, SC", local: "Surreal" },
