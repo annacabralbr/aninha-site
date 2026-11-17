@@ -4,6 +4,7 @@
 export type Show = { data: string; cidade: string; local: string; evento?: string; link?: string }
 
 export const AGENDA: Show[] = [
+    { data: "2027-01-02", cidade: "Balneário Camboriú, SC", local: "Pista Club" },
     { data: "2026-12-30", cidade: "Balneário Camboriú, SC", local: "Acaiá" },
     { data: "2026-02-07", cidade: "Curitiba, PR", local: "Ananás" },
     { data: "2026-02-13", cidade: "Itajaí, SC", local: "Warung Beach Club" },
@@ -26,7 +27,6 @@ export const AGENDA: Show[] = [
     { data: "2026-11-19", cidade: "Itajaí, SC", local: "Isla Praia Brava" },
     { data: "2026-12-04", cidade: "Goiânia, GO", local: "Offspot", evento: "V0lar5" },
     { data: "2026-12-12", cidade: "Curitiba, PR", local: "+55", evento: "Surreal Tour" },
-    { data: "2026-12-17", cidade: "Curitiba, PR", local: "Macro", evento: "Escuta" },
     { data: "2026-12-27", cidade: "Florianópolis, SC", local: "Terraza" },
     { data: "2026-12-28", cidade: "Garopaba, SC", local: "Kumaras" },
     { data: "2026-12-31", cidade: "Florianópolis, SC", local: "Réveillon Troop" },
